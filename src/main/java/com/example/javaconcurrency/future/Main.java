@@ -1,6 +1,9 @@
 package com.example.javaconcurrency.future;
 
+import java.util.Scanner;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /*
@@ -36,5 +39,20 @@ public class Main {
         Callable<String> myCallable = () -> "Hello World!";
         String greeting = myCallable.call();
         System.out.println(greeting);
+
+        CompletableFuture<String> myCompletable = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "Hello World!";
+        });
+        myCompletable.thenAccept(res -> {
+            System.out.println("res = " + res);
+        });
+
+        System.out.println("Press enter to exit");
+        new Scanner(System.in).nextLine();
     }
 }
